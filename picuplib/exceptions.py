@@ -23,11 +23,20 @@ Collections of custom exceptions
 from __future__ import unicode_literals, print_function
 
 
-class WrongRotation(Exception):
+class UnsuportedRotation(Exception):
+    """
+    Raised when unsupported rotation value is given.
+    """
     pass
 
-class WrongResize(Exception):
+class UnsuportedResize(Exception):
+    """
+    Raised when unsupported resize value is given
+    """
     pass
 
 class UnsupportedFormat(Exception):
+    """
+    Raised when file format is unsupported
+    """
     pass
