@@ -23,7 +23,7 @@ from __future__ import unicode_literals, print_function
 
 from requests import post
 
-from picuplib.checks import (check_size, check_rotation, check_noexif,
+from picuplib.checks import (check_resize, check_rotation, check_noexif,
                              check_response)
 
 from picuplib.globals import API_URL
@@ -31,25 +31,25 @@ from picuplib.globals import API_URL
 class Upload(object):
     """
     Class based wrapper for uploading.
-    It stores the apikey and default settings for size, rotation …
+    It stores the apikey and default settings for resize, rotation …
     """
 
-    def __init__(self, apikey, size='og', rotation='00', noexif=False):
+    def __init__(self, apikey, resize='og', rotation='00', noexif=False):
         self._apikey = apikey
-        self._size = size
+        self._resize = resize
         self._rotation = rotation
         self._noexif = noexif
 
     @property
-    def size(self):
-        """getter for _size"""
-        return self._size
+    def resize(self):
+        """getter for _resize"""
+        return self._resize
 
-    @size.setter
-    def size(self, value):
-        """setter for _size"""
-        check_size(value)
-        self._size = value
+    @resize.setter
+    def resize(self, value):
+        """setter for _resize"""
+        check_resize(value)
+        self._resize = value
 
     @property
     def rotation(self):
@@ -73,66 +73,69 @@ class Upload(object):
         check_noexif(value)
         self._noexif = value
 
-    def upload(self, picture, size=None, rotation=None, noexif=None):
+    def upload(self, picture, resize=None, rotation=None, noexif=None):
         """wraps upload function"""
-        if not size:
-            size = self._size
+        if not resize:
+            resize = self._resize
         if not rotation:
             rotation = self._rotation
         if not noexif:
             noexif = self._noexif
 
-        return upload(self._apikey, picture, size, rotation, noexif)
+        return upload(self._apikey, picture, resize, rotation, noexif)
 
-    def remote_upload(self, picture_url, size=None, rotation=None, noexif=None):
+    def remote_upload(self, picture_url, resize=None,
+                      rotation=None, noexif=None):
         """wraps remote_upload funktion"""
-        if not size:
-            size = self._size
+        if not resize:
+            resize = self._resize
         if not rotation:
             rotation = self._rotation
         if not noexif:
             noexif = self._noexif
 
-        return remote_upload(self._apikey, picture_url, size, rotation, noexif)
+        return remote_upload(self._apikey, picture_url,
+                             resize, rotation, noexif)
 
 
-def upload(apikey, picture, size='og', rotation='00', noexif=False):
+def upload(apikey, picture, resize='og', rotation='00', noexif=False):
     """
     prepares post for regular upload
     """
     check_rotation(rotation)
-    check_size(size)
+    check_resize(resize)
 
-    post_data = compose_post(apikey, size, rotation, noexif)
+    post_data = compose_post(apikey, resize, rotation, noexif)
 
     with open(picture, 'rb') as file_obj:
         post_data['Datei[]'] = file_obj
 
         return do_upload(post_data)
 
-def remote_upload(apikey, picture_url, size='og', rotation='00', noexif=False):
+def remote_upload(apikey, picture_url, resize='og',
+                  rotation='00', noexif=False):
     """
     prepares post for remote upload
     """
     check_rotation(rotation)
-    check_size(size)
+    check_resize(resize)
 
-    post_data = compose_post(apikey, size, rotation, noexif)
+    post_data = compose_post(apikey, resize, rotation, noexif)
     post_data['url[]'] = ('', picture_url)
 
     return do_upload(post_data)
 
 
 
-def compose_post(apikey, size, rotation, noexif):
+def compose_post(apikey, resize, rotation, noexif):
     """
     composes basic post requests
     """
     check_rotation(rotation)
-    check_size(size)
+    check_resize(resize)
 
     post_data = {
-        'formatliste': ('', size),
+        'formatliste': ('', resize),
         'userdrehung': ('', rotation),
         'apikey': ('', apikey)
         }

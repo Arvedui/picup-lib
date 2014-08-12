@@ -23,7 +23,7 @@ from json import loads
 
 from picuplib.exceptions import (UnsuportedResize, UnsuportedRotation,
                                  UnsupportedFormat, UnkownError)
-from picuplib.globals import ALLOWED_ROTATION, ALLOWED_SIZE
+from picuplib.globals import ALLOWED_ROTATION, ALLOWED_RESIZE
 
 
 def check_rotation(rotation):
@@ -34,13 +34,13 @@ def check_rotation(rotation):
         raise UnsuportedRotation('Rotation %s is not allwoed. Allowed are %s'
                                  % (rotation, allowed_rotation))
 
-def check_size(size):
-    """checks size parameter if illegal value raises exception"""
+def check_resize(resize):
+    """checks resize parameter if illegal value raises exception"""
 
-    if size not in ALLOWED_SIZE:
-        allowed_size = ', '.join(ALLOWED_SIZE)
-        raise UnsuportedResize('Size %s is not allowed. Allowed are %s'
-                               % (size, allowed_size))
+    if resize not in ALLOWED_RESIZE:
+        allowed_resize = ', '.join(ALLOWED_RESIZE)
+        raise UnsuportedResize('Resize %s is not allowed. Allowed are %s'
+                               % (resize, allowed_resize))
 
 def check_noexif(noexif):
     """checks if noexif parameter is boolean"""
