@@ -32,6 +32,13 @@ class Upload(object):
     """
     Class based wrapper for uploading.
     It stores the apikey and default settings for resize, rotation …
+
+    :param str apikey: Apikey needed for Autentication on picflash.
+    :param str resize: Either 'og' or an allowed resolution in the followong\
+        format '80x80'
+    :param (str|degree) rotation: The picture will be rotated by this Value. \
+        Allowed values are 00, 90, 180, 270.
+    :param boolean noexif: set to True when exif data should be purged.
     """
 
     def __init__(self, apikey, resize='og', rotation='00', noexif=False):
@@ -101,6 +108,8 @@ class Upload(object):
 def upload(apikey, picture, resize='og', rotation='00', noexif=False):
     """
     prepares post for regular upload
+
+    param: str apikey
     """
     check_rotation(rotation)
     check_resize(resize)
