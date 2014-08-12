@@ -22,18 +22,79 @@ This module handels the entire upload and some argument and response checking
 from __future__ import unicode_literals, print_function
 
 from requests import post
-from json import loads
 
-from picuplib.exceptions import (UnsuportedResize, UnsuportedRotation,
-                                 UnsupportedFormat, UnkownError)
+from picuplib.checks import (check_size, check_rotation, check_noexif,
+                             check_response)
 
-API_URL = 'https://picflash.org/tool.php'
+from picuplib.globals import API_URL
 
-ALLOWED_SIZE = ('80x80', '100x75', '100x100', '150x112', '468x60', '400x400',
-                '320x240', '640x480', '800x600', '1024x768', '1280x1024',
-                '1600x1200', 'og')
+class Upload(object):
+    """
+    Class based wrapper for uploading.
+    It stores the apikey and default settings for size, rotation …
+    """
 
-ALLOWED_ROTATION = ('00', '90', '180', '270')
+    def __init__(self, apikey, size='og', rotation='00', noexif=False):
+        self._apikey = apikey
+        self._size = size
+        self._rotation = rotation
+        self._noexif = noexif
+
+    @property
+    def size(self):
+        """getter for _size"""
+        return self._size
+
+    @size.setter
+    def size(self, value):
+        """setter for _size"""
+        check_size(value)
+        self._size = value
+
+    @property
+    def rotation(self):
+        """getter for _rotation"""
+        return self._rotation
+
+    @rotation.setter
+    def rotation(self, value):
+        """setter for rotation"""
+        check_rotation(value)
+        self._rotation = value
+
+    @property
+    def noexif(self):
+        """getter for _noexif"""
+        return self._noexif
+
+    @noexif.setter
+    def noexif(self, value):
+        """setter for _noexif"""
+        check_noexif(value)
+        self._noexif = value
+
+    def upload(self, picture, size=None, rotation=None, noexif=None):
+        """wraps upload function"""
+        if not size:
+            size = self._size
+        if not rotation:
+            rotation = self._rotation
+        if not noexif:
+            noexif = self._noexif
+
+        return upload(self._apikey, picture, size, rotation, noexif)
+
+    def remote_upload(self, picture_url, size=None, rotation=None, noexif=None):
+        """wraps remote_upload funktion"""
+        if not size:
+            size = self._size
+        if not rotation:
+            rotation = self._rotation
+        if not noexif:
+            noexif = self._noexif
+
+        return remote_upload(self._apikey, picture_url, size, rotation, noexif)
+
 
 def upload(apikey, picture, size='og', rotation='00', noexif=False):
     """
@@ -89,33 +150,4 @@ def do_upload(post_data):
     check_response(response.text)
 
     return response.json()
-
-def check_rotation(rotation):
-    """checks rotation parameter if illegal value raises exception"""
-
-    if rotation not in ALLOWED_ROTATION:
-        allowed_rotation = ', '.join(ALLOWED_ROTATION)
-        raise UnsuportedRotation('Rotation %s is not allwoed. Allowed are %s'
-                                 % (rotation, allowed_rotation))
-
-def check_size(size):
-    """checks size parameter if illegal value raises exception"""
-
-    if size not in ALLOWED_SIZE:
-        allowed_size = ', '.join(ALLOWED_SIZE)
-        raise UnsuportedResize('Size %s is not allowed. Allowed are %s'
-                               % (size, allowed_size))
-
-def check_response(response):
-    """
-    checks the response if the server returned an error raises an exception.
-    """
-    response = response.replace('null', '')
-    response = loads(response)
-    if 'failure' in response:
-        if response['failure'] == 'Falscher Dateityp':
-            raise UnsupportedFormat('Please look at picflash.org '
-                                    'witch formats are supported')
-        else:
-            raise UnkownError(response['failure'])
 

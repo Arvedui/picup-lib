@@ -16,11 +16,15 @@
 # 02110-1301 USA
 ######################### END LICENSE BLOCK #########################
 """
-Small picflash upload library
+Module for some "global" constants
 """
 
-__version__ = '0.1'
+API_URL = 'https://picflash.org/tool.php'
 
-from .upload import upload, remote_upload, Upload
+ALLOWED_SIZE = ('80x80', '100x75', '100x100', '150x112', '468x60', '400x400',
+                '320x240', '640x480', '800x600', '1024x768', '1280x1024',
+                '1600x1200', 'og')
+
+ALLOWED_ROTATION = ('00', '90', '180', '270')
 
 
