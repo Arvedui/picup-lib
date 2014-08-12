@@ -27,16 +27,18 @@ class UnsuportedRotation(Exception):
     """
     Raised when unsupported rotation value is given.
     """
-    pass
 
 class UnsuportedResize(Exception):
     """
     Raised when unsupported resize value is given
     """
-    pass
 
 class UnsupportedFormat(Exception):
     """
     Raised when file format is unsupported
     """
-    pass
+
+class UnkownError(Exception):
+    """
+    Raised when an unkown error is returned by the API
+    """

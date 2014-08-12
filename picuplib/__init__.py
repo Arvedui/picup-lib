@@ -21,6 +21,6 @@ Small picflash upload library
 
 __version__ = '0.1'
 
-from .upload import upload_pic
+from .upload import upload, remote_upload
 
 
