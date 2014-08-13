@@ -31,14 +31,20 @@ from picuplib.globals import API_URL
 class Upload(object):
     """
     Class based wrapper for uploading.
-    It stores the apikey and default settings for resize, rotation …
+    It stores the apikey and default settings for resize, rotation
+    and the noexif parameter.
 
     :param str apikey: Apikey needed for Autentication on picflash.
-    :param str resize: Either 'og' or an allowed resolution in the followong\
-        format '80x80'
-    :param (str|degree) rotation: The picture will be rotated by this Value. \
-        Allowed values are 00, 90, 180, 270.
-    :param boolean noexif: set to True when exif data should be purged.
+    :param str resize: Either 'og' or an allowed resolution in the following\
+        format '80x80'(optional)
+    :param str|degree rotation: The picture will be rotated by this Value. \
+        Allowed values are 00, 90, 180, 270.(optional)
+    :param boolean noexif: set to True when exif data should be purged.\
+        (optional)
+
+    :ivar str resize:
+    :ivar str rotation:
+    :ivar boolean noexif: If true exif data will be deleted
     """
 
     def __init__(self, apikey, resize='og', rotation='00', noexif=False):
@@ -81,7 +87,18 @@ class Upload(object):
         self._noexif = value
 
     def upload(self, picture, resize=None, rotation=None, noexif=None):
-        """wraps upload function"""
+        """
+        wraps upload function
+
+        :param str picture: Path to picture
+        :param str resize: Either 'og' or an allowed resolution in the \
+            folowing format: '80x80'(optional)
+        :param str|degree rotation: The picture will be rotated by this Value. \
+            Allowed values are 00, 90, 180, 270.(optional)
+        :param boolean noexif: set to True when exif data should be purged.\
+            (optional)
+
+        """
         if not resize:
             resize = self._resize
         if not rotation:
@@ -93,7 +110,19 @@ class Upload(object):
 
     def remote_upload(self, picture_url, resize=None,
                       rotation=None, noexif=None):
-        """wraps remote_upload funktion"""
+        """
+        wraps remote_upload funktion
+
+        :param str picture_url: URL to picture allowd Protocols are: ftp,\
+            http, https
+        :param str resize: Either 'og' or an allowed resolution in the \
+            folowing format: '80x80'(optional)
+        :param str|degree rotation: The picture will be rotated by this Value. \
+            Allowed values are 00, 90, 180, 270.(optional)
+        :param boolean noexif: set to True when exif data should be purged.\
+            (optional)
+
+        """
         if not resize:
             resize = self._resize
         if not rotation:
@@ -109,7 +138,14 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False):
     """
     prepares post for regular upload
 
-    param: str apikey
+    :param str picture: Path to picture
+    :param str resize: Either 'og' or an allowed resolution in the \
+        folowing format: '80x80'(optional)
+    :param str|degree rotation: The picture will be rotated by this Value. \
+        Allowed values are 00, 90, 180, 270.(optional)
+    :param boolean noexif: set to True when exif data should be purged.\
+        (optional)
+
     """
     check_rotation(rotation)
     check_resize(resize)
@@ -125,6 +161,16 @@ def remote_upload(apikey, picture_url, resize='og',
                   rotation='00', noexif=False):
     """
     prepares post for remote upload
+
+    :param str picture_url: URL to picture allowd Protocols are: ftp,
+        http, https
+    :param str resize: Either 'og' or an allowed resolution in the \
+        folowing format: '80x80'(optional)
+    :param str|degree rotation: The picture will be rotated by this Value. \
+        Allowed values are 00, 90, 180, 270.(optional)
+    :param boolean noexif: set to True when exif data should be purged.\
+        (optional)
+
     """
     check_rotation(rotation)
     check_resize(resize)

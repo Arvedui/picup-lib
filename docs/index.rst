@@ -12,8 +12,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   api
 
-.. autoclass:: picuplib.Upload
+
+
 
 Indices and tables
 ==================
