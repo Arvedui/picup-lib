@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding:utf8 -*-
 
-from distutils.core import setup
+from setuptools import setup
 
 
 setup(
@@ -11,5 +11,6 @@ setup(
       description = 'Picflash upload library',
       author = 'Arvedui',
       author_email = 'arvedui@posteo.de',
-      url = 'https://github.com/Arvedui/picuplib'
+      url = 'https://github.com/Arvedui/picuplib',
+      install_requires=['requests'],
       )
