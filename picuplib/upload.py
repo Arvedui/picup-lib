@@ -133,6 +133,14 @@ class Upload(object):
         return remote_upload(self._apikey, picture_url,
                              resize, rotation, noexif)
 
+def punify_filename(filename):
+    """
+    small hackisch workarounf for picflash unicode problems
+    """
+    path, extension = filename.rsplit('.', 1)
+    extension = '.' + extension
+    return path.encode('punycode').decode('utf8') + extension
+
 
 def upload(apikey, picture, resize='og', rotation='00', noexif=False):
     """
@@ -153,7 +161,7 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False):
     post_data = compose_post(apikey, resize, rotation, noexif)
 
     with open(picture, 'rb') as file_obj:
-        post_data['Datei[]'] = file_obj
+        post_data['Datei[]'] = (punify_filename(picture), file_obj)
 
         return do_upload(post_data)
 

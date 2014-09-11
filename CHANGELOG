@@ -1,2 +1,5 @@
+v0.2.2 - 2014-09-11
+-Implemented workaround for piclfash unicode problems
+
 v0.2.1 - 2014-09-09
 -Added setup.py pypi classefiers
