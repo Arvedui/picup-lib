@@ -14,3 +14,5 @@ Installation
 ============
 1. Download and unpack the tarball or clone the repo
 2. type ``python setup.py install``
+
+or just use pip
