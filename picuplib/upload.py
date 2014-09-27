@@ -215,5 +215,5 @@ def do_upload(post_data):
     response = post(API_URL, files=post_data)
     check_response(response.text)
 
-    return response.json()
+    return response.json()[0]
 
