@@ -19,7 +19,7 @@
 Small picflash upload library
 """
 
-__version__ = '0.2.4'
+__version__ = '0.2.5'
 
 from .upload import upload, remote_upload, Upload
 

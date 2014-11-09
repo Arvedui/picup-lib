@@ -1,3 +1,7 @@
+v0.2.5 - 2014-11-09
+- added workaround for redirect problems within the Picflash API
+- small Exception handling improvments
+
 v0.2.4 - 2014-09-27
 - Fixed json output
 
