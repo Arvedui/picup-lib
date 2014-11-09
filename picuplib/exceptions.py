@@ -42,3 +42,8 @@ class UnkownError(Exception):
     """
     Raised when an unkown error is returned by the API
     """
+
+class ServerError(Exception):
+    """
+    Raised when a Server error occured
+    """

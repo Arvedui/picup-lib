@@ -23,7 +23,7 @@ from json import loads
 from requests import head
 
 from picuplib.exceptions import (UnsuportedResize, UnsuportedRotation,
-                                 UnsupportedFormat, UnkownError)
+                                 UnsupportedFormat, UnkownError, ServerError)
 from picuplib.globals import ALLOWED_ROTATION, ALLOWED_RESIZE
 
 
@@ -52,16 +52,21 @@ def check_response(response):
     """
     checks the response if the server returned an error raises an exception.
     """
-    #try:
-    response = loads(response)
-    #except:
-    #    pass
-    if 'failure' in response:
-        if response['failure'] == 'Falscher Dateityp':
+    if response.status_code < 200 or response.status_code > 300:
+        raise ServerError('API requests returned with error: %s'
+                          % response.status_code)
+
+    try:
+        response_text = loads(response.text)
+    except ValueError:
+        raise ServerError('The API did not returned a JSON string.')
+
+    if 'failure' in response_text:
+        if response_text['failure'] == 'Falscher Dateityp':
             raise UnsupportedFormat('Please look at picflash.org '
                                     'witch formats are supported')
         else:
-            raise UnkownError(response['failure'])
+            raise UnkownError(response_text['failure'])
 
 def check_if_redirect(url):
     """

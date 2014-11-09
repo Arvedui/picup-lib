@@ -226,8 +226,7 @@ def do_upload(post_data):
     does the actual upload
     """
     response = post(API_URL, files=post_data)
-    print(response.text, response.status_code)
-    check_response(response.text)
+    check_response(response)
 
     return response.json()[0]
 
