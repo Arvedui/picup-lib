@@ -24,7 +24,7 @@ from __future__ import unicode_literals, print_function
 from requests import post
 
 from picuplib.checks import (check_resize, check_rotation, check_noexif,
-                             check_response)
+                             check_response, check_if_redirect)
 
 from picuplib.globals import API_URL
 
@@ -182,12 +182,25 @@ def remote_upload(apikey, picture_url, resize='og',
     """
     check_rotation(rotation)
     check_resize(resize)
+    url = check_if_redirect(picture_url)
+    if url:
+        picture_url = resolve_redirect(url)
+
+    print(picture_url)
 
     post_data = compose_post(apikey, resize, rotation, noexif)
     post_data['url[]'] = ('', picture_url)
 
     return do_upload(post_data)
 
+def resolve_redirect(url):
+    """
+    recursively resolves redirects
+    """
+    new_url = check_if_redirect(url)
+    if new_url:
+        return resolve_redirect(new_url)
+    return url
 
 
 def compose_post(apikey, resize, rotation, noexif):
@@ -213,6 +226,7 @@ def do_upload(post_data):
     does the actual upload
     """
     response = post(API_URL, files=post_data)
+    print(response.text, response.status_code)
     check_response(response.text)
 
     return response.json()[0]

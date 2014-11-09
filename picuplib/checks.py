@@ -20,6 +20,7 @@ module for some argument cheking
 """
 
 from json import loads
+from requests import head
 
 from picuplib.exceptions import (UnsuportedResize, UnsuportedRotation,
                                  UnsupportedFormat, UnkownError)
@@ -51,11 +52,23 @@ def check_response(response):
     """
     checks the response if the server returned an error raises an exception.
     """
-    response = response.replace('null', '')
+    #try:
     response = loads(response)
+    #except:
+    #    pass
     if 'failure' in response:
         if response['failure'] == 'Falscher Dateityp':
             raise UnsupportedFormat('Please look at picflash.org '
                                     'witch formats are supported')
         else:
             raise UnkownError(response['failure'])
+
+def check_if_redirect(url):
+    """
+    checks if server redirects url
+    """
+    response = head(url)
+    if response.status_code >= 300 and response.status_code < 400:
+        return response.headers['location']
+
+    return None
