@@ -186,8 +186,6 @@ def remote_upload(apikey, picture_url, resize='og',
     if url:
         picture_url = resolve_redirect(url)
 
-    print(picture_url)
-
     post_data = compose_post(apikey, resize, rotation, noexif)
     post_data['url[]'] = ('', picture_url)
 
