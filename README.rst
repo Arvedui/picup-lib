@@ -1,18 +1,26 @@
 picuplib
 =========
 
-Small python library for uploading pictures to [picflash.org](https://picflash.org)
+Small python library for uploading pictures to `picflash.org`_
 
-Requirements:
-* python 2.6 or better.
-    * Python 3 is supported too.
-* requests
+.. _picflash.org: https://picflash.org
 
-Documentation can be found on [ReadTheDocs](http://picuplib.readthedocs.org/en/latest/)
+Documentation can be found on ReadTheDocs_
+
+.. _ReadTheDocs: http://picuplib.readthedocs.org/en/latest/
+
+Requirements
+------------
+
+- Python 3
+    * Python 2.6 or greater should work too but is not realy tested
+
+- requests
 
 Installation
 ============
-1. Download and unpack the tarball or clone the repo
-2. type ``python setup.py install``
+
+#. Download and unpack the tarball or clone the repo
+#. type ``python setup.py install``
 
 or just use pip
