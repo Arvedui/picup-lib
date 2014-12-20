@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding:utf8 -*-
 
 from setuptools import setup
@@ -14,7 +14,7 @@ setup(
       author = 'Arvedui',
       author_email = 'arvedui@posteo.de',
       url = 'https://github.com/Arvedui/picuplib',
-      install_requires=['requests'. 'requests_toolbelt'],
+      install_requires=['requests', 'requests_toolbelt'],
       classifiers=[
             'Development Status :: 4 - Beta',
             'Topic :: Software Development :: Libraries',
