@@ -142,7 +142,8 @@ def punify_filename(filename):
     return path.encode('punycode').decode('utf8') + extension
 
 
-def upload(apikey, picture, resize='og', rotation='00', noexif=False):
+def upload(apikey, picture, resize='og', rotation='00', noexif=False,
+           callback=None):
     """
     prepares post for regular upload
 
@@ -163,7 +164,7 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False):
     with open(picture, 'rb') as file_obj:
         post_data['Datei[]'] = (punify_filename(picture), file_obj)
 
-        return do_upload(post_data)
+        return do_upload(post_data, callback)
 
 def remote_upload(apikey, picture_url, resize='og',
                   rotation='00', noexif=False):
@@ -219,13 +220,13 @@ def compose_post(apikey, resize, rotation, noexif):
 
     return post_data
 
-def do_upload(post_data):
+def do_upload(post_data, callback=None):
     """
     does the actual upload also sets and generates the user agent string
     """
 
     encoder = MultipartEncoder(post_data)
-    monitor = MultipartEncoderMonitor(encoder)
+    monitor = MultipartEncoderMonitor(encoder, callback)
 
 
 
