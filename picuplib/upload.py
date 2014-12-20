@@ -23,6 +23,7 @@ from __future__ import unicode_literals, print_function
 
 from requests import post
 from os.path import splitext
+from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 
 from picuplib.checks import (check_resize, check_rotation, check_noexif,
                              check_response, check_if_redirect)
@@ -222,8 +223,14 @@ def do_upload(post_data):
     """
     does the actual upload also sets and generates the user agent string
     """
-    headers = {'User-Agent': USER_AGENT}
-    response = post(API_URL, files=post_data, headers=headers)
+
+    encoder = MultipartEncoder(post_data)
+    monitor = MultipartEncoderMonitor(encoder)
+
+
+
+    headers = {'User-Agent': USER_AGENT, 'Content-Type': monitor.content_type}
+    response = post(API_URL, data=monitor, headers=headers)
     check_response(response)
 
     return response.json()[0]
