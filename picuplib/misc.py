@@ -26,7 +26,7 @@ import platform
 
 def gen_user_agent(version):
     """
-    generating the user agent witch will be used fot most requests
+    generating the user agent witch will be used for most requests
 
     monkey patching system and release functions from platform module to prevent
     disclosure of the OS and it's version
