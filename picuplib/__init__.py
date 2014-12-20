@@ -1,5 +1,5 @@
 # -*- coding:utf8 -*-
-######################## BEGIN LICENSE BLOCK ########################
+# ####################### BEGIN LICENSE BLOCK ########################
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
-######################### END LICENSE BLOCK #########################
+# ######################## END LICENSE BLOCK #########################
 """
 Small picflash upload library
 """
@@ -22,5 +22,3 @@ Small picflash upload library
 from .globals import __version__
 
 from .upload import upload, remote_upload, Upload
-
-

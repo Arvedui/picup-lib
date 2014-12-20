@@ -1,5 +1,5 @@
 # -*- coding:utf8 -*-
-######################## BEGIN LICENSE BLOCK ########################
+# ####################### BEGIN LICENSE BLOCK ########################
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
-######################### END LICENSE BLOCK #########################
+# ######################## END LICENSE BLOCK #########################
 """
 This module handels the entire upload and some argument and response checking
 """
@@ -29,6 +29,7 @@ from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 from picuplib.checks import (check_resize, check_rotation, check_noexif,
                              check_response, check_if_redirect, check_callback)
 from picuplib.globals import API_URL, USER_AGENT
+
 
 class Upload(object):
     """
@@ -102,7 +103,6 @@ class Upload(object):
         check_callback(value)
         self._callback = value
 
-
     def upload(self, picture, resize=None, rotation=None, noexif=None,
                callback=None):
         """
@@ -156,6 +156,7 @@ class Upload(object):
         return remote_upload(self._apikey, picture_url,
                              resize, rotation, noexif)
 
+
 def punify_filename(filename):
     """
     small hackisch workaround for unicode problems with the picflash api
@@ -191,6 +192,7 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False,
 
         return do_upload(post_data, callback)
 
+
 def remote_upload(apikey, picture_url, resize='og',
                   rotation='00', noexif=False):
     """
@@ -216,6 +218,7 @@ def remote_upload(apikey, picture_url, resize='og',
     post_data['url[]'] = ('', picture_url)
 
     return do_upload(post_data)
+
 
 def resolve_redirect(url):
     """
@@ -245,6 +248,7 @@ def compose_post(apikey, resize, rotation, noexif):
 
     return post_data
 
+
 def do_upload(post_data, callback=None):
     """
     does the actual upload also sets and generates the user agent string
@@ -253,11 +257,8 @@ def do_upload(post_data, callback=None):
     encoder = MultipartEncoder(post_data)
     monitor = MultipartEncoderMonitor(encoder, callback)
 
-
-
     headers = {'User-Agent': USER_AGENT, 'Content-Type': monitor.content_type}
     response = post(API_URL, data=monitor, headers=headers)
     check_response(response)
 
     return response.json()[0]
-
