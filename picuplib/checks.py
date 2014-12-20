@@ -1,5 +1,5 @@
 # -*- coding:utf8 -*-
-######################## BEGIN LICENSE BLOCK ########################
+# ####################### BEGIN LICENSE BLOCK ########################
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -14,7 +14,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
 # 02110-1301 USA
-######################### END LICENSE BLOCK #########################
+# ######################## END LICENSE BLOCK #########################
 """
 module for some argument cheking
 """
@@ -35,6 +35,7 @@ def check_rotation(rotation):
         raise UnsuportedRotation('Rotation %s is not allwoed. Allowed are %s'
                                  % (rotation, allowed_rotation))
 
+
 def check_resize(resize):
     """checks resize parameter if illegal value raises exception"""
 
@@ -43,10 +44,18 @@ def check_resize(resize):
         raise UnsuportedResize('Resize %s is not allowed. Allowed are %s'
                                % (resize, allowed_resize))
 
+
 def check_noexif(noexif):
     """checks if noexif parameter is boolean"""
     if not isinstance(noexif, bool):
         raise TypeError('noexif must be boolean')
+
+
+def check_callback(callback):
+    """checks if callback is callable"""
+    if not callable(callback) and callback is not None:
+        raise TypeError('%s is not callable' % callback)
+
 
 def check_response(response):
     """
@@ -67,6 +76,7 @@ def check_response(response):
                                     'witch formats are supported')
         else:
             raise UnkownError(response_text['failure'])
+
 
 def check_if_redirect(url):
     """

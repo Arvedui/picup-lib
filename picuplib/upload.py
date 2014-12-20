@@ -27,7 +27,7 @@ from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 
 
 from picuplib.checks import (check_resize, check_rotation, check_noexif,
-                             check_response, check_if_redirect)
+                             check_response, check_if_redirect, check_callback)
 from picuplib.globals import API_URL, USER_AGENT
 
 class Upload(object):
@@ -49,11 +49,14 @@ class Upload(object):
     :ivar boolean noexif: If true exif data will be deleted
     """
 
-    def __init__(self, apikey, resize='og', rotation='00', noexif=False):
+    def __init__(self, apikey, resize='og', rotation='00', noexif=False,
+                 callback=None):
         self._apikey = apikey
         self._resize = resize
         self._rotation = rotation
         self._noexif = noexif
+
+        self._callback = callback
 
     @property
     def resize(self):
@@ -88,7 +91,20 @@ class Upload(object):
         check_noexif(value)
         self._noexif = value
 
-    def upload(self, picture, resize=None, rotation=None, noexif=None):
+    @property
+    def callback(self):
+        """ getter for _callback"""
+        return self._callback
+
+    @callback.setter
+    def callback(self, value):
+        """setter for _callback"""
+        check_callback(value)
+        self._callback = value
+
+
+    def upload(self, picture, resize=None, rotation=None, noexif=None,
+               callback=None):
         """
         wraps upload function
 
@@ -99,6 +115,9 @@ class Upload(object):
             Allowed values are 00, 90, 180, 270.(optional)
         :param boolean noexif: set to True when exif data should be purged.\
             (optional)
+        :param function callback: function witch will be called after every read. \
+            Need to take one argument. you can use the len function to \
+            determine the body length and call bytes_read().
 
         """
         if not resize:
@@ -107,8 +126,10 @@ class Upload(object):
             rotation = self._rotation
         if not noexif:
             noexif = self._noexif
+        if not callback:
+            callback = self._callback
 
-        return upload(self._apikey, picture, resize, rotation, noexif)
+        return upload(self._apikey, picture, resize, rotation, noexif, callback)
 
     def remote_upload(self, picture_url, resize=None,
                       rotation=None, noexif=None):
@@ -155,10 +176,13 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False,
         Allowed values are 00, 90, 180, 270.(optional)
     :param boolean noexif: set to True when exif data should be purged.\
         (optional)
-
+    :param function callback: function witch will be called after every read. \
+        Need to take one argument. you can use the len function to determine \
+        the body length and call bytes_read().
     """
     check_rotation(rotation)
     check_resize(resize)
+    check_callback(callback)
 
     post_data = compose_post(apikey, resize, rotation, noexif)
 
