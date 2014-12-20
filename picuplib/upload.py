@@ -21,15 +21,12 @@ This module handels the entire upload and some argument and response checking
 
 from __future__ import unicode_literals, print_function
 
-import requests_toolbelt
-
 from requests import post
 from os.path import splitext
 
 from picuplib.checks import (check_resize, check_rotation, check_noexif,
                              check_response, check_if_redirect)
-from picuplib.globals import API_URL
-from picuplib import __version__
+from picuplib.globals import API_URL, USER_AGENT
 
 class Upload(object):
     """
@@ -225,8 +222,7 @@ def do_upload(post_data):
     """
     does the actual upload also sets and generates the user agent string
     """
-    user_agent = requests_toolbelt.user_agent('picuplib', __version__)
-    headers = {'User-Agent': user_agent}
+    headers = {'User-Agent': USER_AGENT}
     response = post(API_URL, files=post_data, headers=headers)
     check_response(response)
 

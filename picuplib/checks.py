@@ -24,7 +24,7 @@ from requests import head
 
 from picuplib.exceptions import (UnsuportedResize, UnsuportedRotation,
                                  UnsupportedFormat, UnkownError, ServerError)
-from picuplib.globals import ALLOWED_ROTATION, ALLOWED_RESIZE
+from picuplib.globals import ALLOWED_ROTATION, ALLOWED_RESIZE, USER_AGENT
 
 
 def check_rotation(rotation):
@@ -72,7 +72,7 @@ def check_if_redirect(url):
     """
     checks if server redirects url
     """
-    response = head(url)
+    response = head(url, headers={'User-Agent': USER_AGENT})
     if response.status_code >= 300 and response.status_code < 400:
         return response.headers['location']
 

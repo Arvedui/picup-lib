@@ -16,19 +16,43 @@
 # 02110-1301 USA
 ######################### END LICENSE BLOCK #########################
 """
-Module for some "global" constants
+miscellaneous functions
 """
 
-from picuplib.misc import gen_user_agent
+import requests_toolbelt
 
-__version__ = '0.3-dev'
+import platform
 
-API_URL = 'https://picflash.org/tool.php'
 
-ALLOWED_RESIZE = ('80x80', '100x75', '100x100', '150x112', '468x60', '400x400',
-                  '320x240', '640x480', '800x600', '1024x768', '1280x1024',
-                  '1600x1200', 'og')
+def gen_user_agent(version):
+    """
+    generating the user agent witch will be used fot most requests
 
-ALLOWED_ROTATION = ('00', '90', '180', '270')
+    monkey patching system and release functions from platform module to prevent
+    disclosure of the OS and it's version
+    """
+    def monkey_patch():
+        """
+        small monkey patch
+        """
+        raise IOError
 
-USER_AGENT = gen_user_agent(__version__)
+    # saving original functions
+    orig_system = platform.system
+    orig_release = platform.release
+
+    # applying patch
+    platform.system = monkey_patch
+    platform.release = monkey_patch
+
+    user_agent = requests_toolbelt.user_agent('picuplib', version)
+
+
+    # reverting patch
+    platform.system = orig_system
+    platform.system = orig_release
+
+    return user_agent
+
+
+
