@@ -22,7 +22,7 @@ This module handels the entire upload and some argument and response checking
 from __future__ import unicode_literals, print_function
 
 from requests import post
-from os.path import splitext
+from os.path import splitext, basename
 
 from picuplib.checks import (check_resize, check_rotation, check_noexif,
                              check_response, check_if_redirect)
@@ -160,7 +160,7 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False):
     post_data = compose_post(apikey, resize, rotation, noexif)
 
     with open(picture, 'rb') as file_obj:
-        post_data['Datei[]'] = (punify_filename(picture), file_obj)
+        post_data['Datei[]'] = (punify_filename(basename(picture)), file_obj)
 
         return do_upload(post_data)
 
