@@ -44,10 +44,14 @@ class Upload(object):
         Allowed values are 00, 90, 180, 270.(optional)
     :param boolean noexif: set to True when exif data should be purged.\
         (optional)
+    :param function callback: function witch will be called after every read. \
+        Need to take one argument. you can use the len function to \
+        determine the body length and call bytes_read(). Only for local Upload!
 
     :ivar str resize:
     :ivar str rotation:
     :ivar boolean noexif: If true exif data will be deleted
+    :ivat function callback:
     """
 
     def __init__(self, apikey, resize='og', rotation='00', noexif=False,
