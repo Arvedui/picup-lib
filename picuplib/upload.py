@@ -21,12 +21,15 @@ This module handels the entire upload and some argument and response checking
 
 from __future__ import unicode_literals, print_function
 
+import requests_toolbelt
+
 from requests import post
+from os.path import splitext
 
 from picuplib.checks import (check_resize, check_rotation, check_noexif,
                              check_response, check_if_redirect)
-
 from picuplib.globals import API_URL
+from picuplib import __version__
 
 class Upload(object):
     """
@@ -135,10 +138,9 @@ class Upload(object):
 
 def punify_filename(filename):
     """
-    small hackisch workarounf for picflash unicode problems
+    small hackisch workaround for unicode problems with the picflash api
     """
-    path, extension = filename.rsplit('.', 1)
-    extension = '.' + extension
+    path, extension = splitext(filename)
     return path.encode('punycode').decode('utf8') + extension
 
 
@@ -221,9 +223,11 @@ def compose_post(apikey, resize, rotation, noexif):
 
 def do_upload(post_data):
     """
-    does the actual upload
+    does the actual upload also sets and generates the user agent string
     """
-    response = post(API_URL, files=post_data)
+    user_agent = requests_toolbelt.user_agent('picuplib', __version__)
+    headers = {'User-Agent': user_agent}
+    response = post(API_URL, files=post_data, headers=headers)
     check_response(response)
 
     return response.json()[0]
