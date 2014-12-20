@@ -51,7 +51,7 @@ class Upload(object):
     :ivar str resize:
     :ivar str rotation:
     :ivar boolean noexif: If true exif data will be deleted
-    :ivat function callback:
+    :ivar function callback:
     """
 
     def __init__(self, apikey, resize='og', rotation='00', noexif=False,
