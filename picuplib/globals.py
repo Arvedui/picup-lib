@@ -21,7 +21,7 @@ Module for some "global" constants
 
 from picuplib.misc import gen_user_agent
 
-__version__ = '0.3.1'
+__version__ = '0.3.2'
 
 API_URL = 'https://picflash.org/tool.php'
 
