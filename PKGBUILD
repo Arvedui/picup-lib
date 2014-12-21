@@ -3,12 +3,12 @@
 
 pkgname=python-picuplib
 pkgver=0.3.2
-pkgrel=1
+pkgrel=2
 pkgdesc="Picflash upload library"
 arch=('any')
 url="https://github.com/Arvedui/picuplib"
 license=('LGPLv2')
-depends=('python' 'python-requests')
+depends=('python' 'python-requests' 'python-requests-toolbelt')
 makedepends=('python-setuptools' 'git')
 source=("git+https://github.com/Arvedui/picuplib.git#tag=$pkgver")
 md5sums=("SKIP")

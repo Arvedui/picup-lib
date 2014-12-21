@@ -14,7 +14,7 @@ setup(
       author = 'Arvedui',
       author_email = 'arvedui@posteo.de',
       url = 'https://github.com/Arvedui/picuplib',
-      install_requires=['requests', 'requests_toolbelt'],
+      install_requires=['requests', 'requests-toolbelt'],
       classifiers=[
             'Development Status :: 4 - Beta',
             'Topic :: Software Development :: Libraries',
