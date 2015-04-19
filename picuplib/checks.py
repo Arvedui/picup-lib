@@ -22,9 +22,9 @@ module for some argument cheking
 from json import loads
 from requests import head
 
-from picuplib.exceptions import (UnsuportedResize, UnsuportedRotation,
+from .exceptions import (UnsuportedResize, UnsuportedRotation,
                                  UnsupportedFormat, UnkownError, ServerError)
-from picuplib.globals import ALLOWED_ROTATION, ALLOWED_RESIZE, USER_AGENT
+from .globals import ALLOWED_ROTATION, ALLOWED_RESIZE, USER_AGENT
 
 
 def check_rotation(rotation):

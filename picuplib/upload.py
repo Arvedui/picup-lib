@@ -26,9 +26,9 @@ from os.path import splitext, basename
 from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 
 
-from picuplib.checks import (check_resize, check_rotation, check_noexif,
+from .checks import (check_resize, check_rotation, check_noexif,
                              check_response, check_if_redirect, check_callback)
-from picuplib.globals import API_URL, USER_AGENT
+from .globals import API_URL, USER_AGENT
 
 
 class Upload(object):
@@ -115,11 +115,11 @@ class Upload(object):
         :param str picture: Path to picture
         :param str resize: Either 'og' or an allowed resolution in the \
             folowing format: '80x80'(optional)
-        :param str|degree rotation: The picture will be rotated by this Value. \
+        :param str|degree rotation: The picture will be rotated by this Value.\
             Allowed values are 00, 90, 180, 270.(optional)
         :param boolean noexif: set to True when exif data should be purged.\
             (optional)
-        :param function callback: function witch will be called after every read. \
+        :param function callback: function will be called after every read. \
             Need to take one argument. you can use the len function to \
             determine the body length and call bytes_read().
 

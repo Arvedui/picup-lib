@@ -19,7 +19,7 @@
 Module for some "global" constants
 """
 
-from picuplib.misc import gen_user_agent
+from .misc import gen_user_agent
 
 __version__ = '0.3.3'
 
