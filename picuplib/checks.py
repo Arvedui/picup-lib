@@ -23,7 +23,8 @@ from json import loads
 from requests import head
 
 from .exceptions import (UnsuportedResize, UnsuportedRotation,
-                                 UnsupportedFormat, UnkownError, ServerError)
+                         UnsupportedFormat, UnkownError, ServerError,
+                         EmptyResponse)
 from .globals import ALLOWED_ROTATION, ALLOWED_RESIZE, USER_AGENT
 
 
@@ -69,6 +70,9 @@ def check_response(response):
         response_text = loads(response.text)
     except ValueError:
         raise ServerError('The API did not returned a JSON string.')
+
+    if not response_text:
+        raise EmptyResponse()
 
     if 'failure' in response_text:
         if response_text['failure'] == 'Falscher Dateityp':
