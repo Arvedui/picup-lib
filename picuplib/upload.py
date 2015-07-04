@@ -54,16 +54,16 @@ class Upload(object):
     :ivar function callback:
     """
 
-    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments,attribute-defined-outside-init, too-many-instance-attributes
     # I see no point in complicating things through parameter grouping
     def __init__(self, apikey, resize='og', rotation='00', noexif=False,
                  callback=None):
         self._apikey = apikey
-        self._resize = resize
-        self._rotation = rotation
-        self._noexif = noexif
+        self.resize = resize
+        self.rotation = rotation
+        self.noexif = noexif
 
-        self._callback = callback
+        self.callback = callback
     # pylint: enable=too-many-arguments
 
     @property
