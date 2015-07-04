@@ -52,6 +52,7 @@ class ServerError(Exception):
     Raised when a Server error occured
     """
 
+
 class EmptyResponse(Exception):
     """
     Raised when the server response is emtpy

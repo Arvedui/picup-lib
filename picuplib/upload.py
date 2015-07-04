@@ -27,7 +27,7 @@ from requests_toolbelt import MultipartEncoder, MultipartEncoderMonitor
 
 
 from .checks import (check_resize, check_rotation, check_noexif,
-                             check_response, check_if_redirect, check_callback)
+                     check_response, check_if_redirect, check_callback)
 from .globals import API_URL, USER_AGENT
 
 
@@ -54,6 +54,8 @@ class Upload(object):
     :ivar function callback:
     """
 
+    # pylint: disable=too-many-arguments
+    # I see no point in complicating things through parameter grouping
     def __init__(self, apikey, resize='og', rotation='00', noexif=False,
                  callback=None):
         self._apikey = apikey
@@ -62,6 +64,7 @@ class Upload(object):
         self._noexif = noexif
 
         self._callback = callback
+    # pylint: enable=too-many-arguments
 
     @property
     def resize(self):
@@ -107,6 +110,9 @@ class Upload(object):
         check_callback(value)
         self._callback = value
 
+
+    # pylint: disable=too-many-arguments
+    # I see no point in complicating things
     def upload(self, picture, resize=None, rotation=None, noexif=None,
                callback=None):
         """
@@ -133,7 +139,9 @@ class Upload(object):
         if not callback:
             callback = self._callback
 
-        return upload(self._apikey, picture, resize, rotation, noexif, callback)
+        return upload(self._apikey, picture, resize,
+                      rotation, noexif, callback)
+    # pylint: enable=too-many-arguments
 
     def remote_upload(self, picture_url, resize=None,
                       rotation=None, noexif=None):
@@ -168,7 +176,8 @@ def punify_filename(filename):
     path, extension = splitext(filename)
     return path.encode('punycode').decode('utf8') + extension
 
-
+# pylint: disable=too-many-arguments
+# I see no point in complicating things
 def upload(apikey, picture, resize='og', rotation='00', noexif=False,
            callback=None):
     """
@@ -195,6 +204,7 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False,
         post_data['Datei[]'] = (punify_filename(basename(picture)), file_obj)
 
         return do_upload(post_data, callback)
+# pylint: enable=too-many-arguments
 
 
 def remote_upload(apikey, picture_url, resize='og',
@@ -242,10 +252,10 @@ def compose_post(apikey, resize, rotation, noexif):
     check_resize(resize)
 
     post_data = {
-        'formatliste': ('', resize),
-        'userdrehung': ('', rotation),
-        'apikey': ('', apikey)
-        }
+            'formatliste': ('', resize),
+            'userdrehung': ('', rotation),
+            'apikey': ('', apikey)
+            }
 
     if noexif:
         post_data['noexif'] = ('', '')
