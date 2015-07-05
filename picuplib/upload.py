@@ -56,7 +56,7 @@ class Upload(object):
 
     # pylint: disable=too-many-arguments,attribute-defined-outside-init, too-many-instance-attributes
     # I see no point in complicating things through parameter grouping
-    def __init__(self, apikey, resize='og', rotation='00', noexif=False,
+    def __init__(self, apikey, resize=None, rotation='00', noexif=False,
                  callback=None):
         self._apikey = apikey
         self.resize = resize
@@ -178,7 +178,7 @@ def punify_filename(filename):
 
 # pylint: disable=too-many-arguments
 # I see no point in complicating things
-def upload(apikey, picture, resize='og', rotation='00', noexif=False,
+def upload(apikey, picture, resize=None, rotation='00', noexif=False,
            callback=None):
     """
     prepares post for regular upload
@@ -207,7 +207,7 @@ def upload(apikey, picture, resize='og', rotation='00', noexif=False,
 # pylint: enable=too-many-arguments
 
 
-def remote_upload(apikey, picture_url, resize='og',
+def remote_upload(apikey, picture_url, resize=None,
                   rotation='00', noexif=False):
     """
     prepares post for remote upload
@@ -251,11 +251,17 @@ def compose_post(apikey, resize, rotation, noexif):
     check_rotation(rotation)
     check_resize(resize)
 
+
     post_data = {
-            'formatliste': ('', resize),
+            'formatliste': ('', 'og'),
             'userdrehung': ('', rotation),
             'apikey': ('', apikey)
             }
+
+    if resize:
+        width, height = resize.split('x')
+        post_data['udefb'] = ('', width)
+        post_data['udefh'] = ('', height)
 
     if noexif:
         post_data['noexif'] = ('', '')

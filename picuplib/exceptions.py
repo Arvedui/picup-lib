@@ -23,15 +23,15 @@ Collections of custom exceptions
 from __future__ import unicode_literals, print_function
 
 
-class UnsuportedRotation(Exception):
+class UnsupportedRotation(Exception):
     """
     Raised when unsupported rotation value is given.
     """
 
 
-class UnsuportedResize(Exception):
+class MallformedResize(Exception):
     """
-    Raised when unsupported resize value is given
+    Raised when resize value is mallformed
     """
 
 

@@ -22,7 +22,7 @@ module for some argument cheking
 from json import loads
 from requests import head
 
-from .exceptions import (UnsuportedResize, UnsuportedRotation,
+from .exceptions import (MallformedResize, UnsupportedRotation,
                          UnsupportedFormat, UnkownError, ServerError,
                          EmptyResponse)
 from .globals import ALLOWED_ROTATION, ALLOWED_RESIZE, USER_AGENT
@@ -33,17 +33,20 @@ def check_rotation(rotation):
 
     if rotation not in ALLOWED_ROTATION:
         allowed_rotation = ', '.join(ALLOWED_ROTATION)
-        raise UnsuportedRotation('Rotation %s is not allwoed. Allowed are %s'
+        raise UnsupportedRotation('Rotation %s is not allwoed. Allowed are %s'
                                  % (rotation, allowed_rotation))
 
 
 def check_resize(resize):
     """checks resize parameter if illegal value raises exception"""
+    if resize is None:
+        return
 
-    if resize not in ALLOWED_RESIZE:
-        allowed_resize = ', '.join(ALLOWED_RESIZE)
-        raise UnsuportedResize('Resize %s is not allowed. Allowed are %s'
-                               % (resize, allowed_resize))
+    tmp = resize.lower().split('x')
+    if len(tmp) == 2 and tmp[0].isdigit() and tmp[1].isdigit():
+        return
+    raise MallformedResize('Resize value "%s" is mallformed. '
+                            'Desired format is: {width}x{height}' % resize)
 
 
 def check_noexif(noexif):
