@@ -110,7 +110,6 @@ class Upload(object):
         check_callback(value)
         self._callback = value
 
-
     # pylint: disable=too-many-arguments
     # I see no point in complicating things
     def upload(self, picture, resize=None, rotation=None, noexif=None,
@@ -176,6 +175,7 @@ def punify_filename(filename):
     path, extension = splitext(filename)
     return path.encode('punycode').decode('utf8') + extension
 
+
 # pylint: disable=too-many-arguments
 # I see no point in complicating things
 def upload(apikey, picture, resize=None, rotation='00', noexif=False,
@@ -183,6 +183,7 @@ def upload(apikey, picture, resize=None, rotation='00', noexif=False,
     """
     prepares post for regular upload
 
+    :param str apikey: Apikey needed for Autentication on picflash.
     :param str picture: Path to picture
     :param str resize: Either 'og' or an allowed resolution in the \
         folowing format: '80x80'(optional)
@@ -212,6 +213,7 @@ def remote_upload(apikey, picture_url, resize=None,
     """
     prepares post for remote upload
 
+    :param str apikey: Apikey needed for Autentication on picflash.
     :param str picture_url: URL to picture allowd Protocols are: ftp,
         http, https
     :param str resize: Either 'og' or an allowed resolution in the \
@@ -250,7 +252,6 @@ def compose_post(apikey, resize, rotation, noexif):
     """
     check_rotation(rotation)
     check_resize(resize)
-
 
     post_data = {
             'formatliste': ('', 'og'),

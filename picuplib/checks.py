@@ -25,7 +25,7 @@ from requests import head
 from .exceptions import (MallformedResize, UnsupportedRotation,
                          UnsupportedFormat, UnkownError, ServerError,
                          EmptyResponse)
-from .globals import ALLOWED_ROTATION, ALLOWED_RESIZE, USER_AGENT
+from .globals import ALLOWED_ROTATION, USER_AGENT
 
 
 def check_rotation(rotation):
@@ -34,7 +34,7 @@ def check_rotation(rotation):
     if rotation not in ALLOWED_ROTATION:
         allowed_rotation = ', '.join(ALLOWED_ROTATION)
         raise UnsupportedRotation('Rotation %s is not allwoed. Allowed are %s'
-                                 % (rotation, allowed_rotation))
+                                  % (rotation, allowed_rotation))
 
 
 def check_resize(resize):
@@ -46,7 +46,7 @@ def check_resize(resize):
     if len(tmp) == 2 and tmp[0].isdigit() and tmp[1].isdigit():
         return
     raise MallformedResize('Resize value "%s" is mallformed. '
-                            'Desired format is: {width}x{height}' % resize)
+                           'Desired format is: {width}x{height}' % resize)
 
 
 def check_noexif(noexif):
