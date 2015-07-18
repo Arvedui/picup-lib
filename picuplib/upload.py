@@ -195,16 +195,28 @@ def upload(apikey, picture, resize=None, rotation='00', noexif=False,
         Need to take one argument. you can use the len function to determine \
         the body length and call bytes_read().
     """
+
+    if isinstance(picture, str):
+        with open(picture, 'rb') as file_obj:
+            picture_name = picture
+            data = file_obj.read()
+    elif isinstance(picture, (tuple, list)):
+        picture_name = picture[0]
+        data = picture[1]
+    else:
+        raise TypeError("The second argument must be str or list/tuple. "
+                        "Please refer to the documentation for details.")
+
+
     check_rotation(rotation)
     check_resize(resize)
     check_callback(callback)
 
     post_data = compose_post(apikey, resize, rotation, noexif)
 
-    with open(picture, 'rb') as file_obj:
-        post_data['Datei[]'] = (punify_filename(basename(picture)), file_obj)
+    post_data['Datei[]'] = (punify_filename(basename(picture_name)), data)
 
-        return do_upload(post_data, callback)
+    return do_upload(post_data, callback)
 # pylint: enable=too-many-arguments
 
 
