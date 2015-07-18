@@ -38,8 +38,8 @@ class Upload(object):
     and the noexif parameter.
 
     :param str apikey: Apikey needed for Autentication on picflash.
-    :param str resize: Either 'og' or an allowed resolution in the following\
-        format '80x80'(optional)
+    :param str resize: Aresolution in the folowing format: \
+        '80x80'(optional)
     :param str|degree rotation: The picture will be rotated by this Value. \
         Allowed values are 00, 90, 180, 270.(optional)
     :param boolean noexif: set to True when exif data should be purged.\
@@ -117,9 +117,11 @@ class Upload(object):
         """
         wraps upload function
 
-        :param str picture: Path to picture
-        :param str resize: Either 'og' or an allowed resolution in the \
-            folowing format: '80x80'(optional)
+        :param str/tuple/list picture: Path to picture as str or picture data. \
+            If data a tuple or list with the file name as str \
+            and data as byte object in that order.
+        :param str resize: Aresolution in the folowing format: \
+            '80x80'(optional)
         :param str|degree rotation: The picture will be rotated by this Value.\
             Allowed values are 00, 90, 180, 270.(optional)
         :param boolean noexif: set to True when exif data should be purged.\
@@ -149,8 +151,8 @@ class Upload(object):
 
         :param str picture_url: URL to picture allowd Protocols are: ftp,\
             http, https
-        :param str resize: Either 'og' or an allowed resolution in the \
-            folowing format: '80x80'(optional)
+        :param str resize: Aresolution in the folowing format: \
+            '80x80'(optional)
         :param str|degree rotation: The picture will be rotated by this Value. \
             Allowed values are 00, 90, 180, 270.(optional)
         :param boolean noexif: set to True when exif data should be purged.\
@@ -184,9 +186,11 @@ def upload(apikey, picture, resize=None, rotation='00', noexif=False,
     prepares post for regular upload
 
     :param str apikey: Apikey needed for Autentication on picflash.
-    :param str picture: Path to picture
-    :param str resize: Either 'og' or an allowed resolution in the \
-        folowing format: '80x80'(optional)
+    :param str/tuple/list picture: Path to picture as str or picture data. \
+        If data a tuple or list with the file name as str \
+        and data as byte object in that order.
+    :param str resize: Aresolution in the folowing format: \
+        '80x80'(optional)
     :param str|degree rotation: The picture will be rotated by this Value. \
         Allowed values are 00, 90, 180, 270.(optional)
     :param boolean noexif: set to True when exif data should be purged.\
@@ -228,8 +232,8 @@ def remote_upload(apikey, picture_url, resize=None,
     :param str apikey: Apikey needed for Autentication on picflash.
     :param str picture_url: URL to picture allowd Protocols are: ftp,
         http, https
-    :param str resize: Either 'og' or an allowed resolution in the \
-        folowing format: '80x80'(optional)
+    :param str resize: Aresolution in the folowing format: \
+        '80x80'(optional)
     :param str|degree rotation: The picture will be rotated by this Value. \
         Allowed values are 00, 90, 180, 270.(optional)
     :param boolean noexif: set to True when exif data should be purged.\
