@@ -43,6 +43,7 @@ def check_resize(resize):
         return
 
     tmp = resize.lower().split('x')
+    tmp = [x.strip() for x in resize.lower().split('x')]
     if len(tmp) == 2 and tmp[0].isdigit() and tmp[1].isdigit():
         return
     raise MallformedResize('Resize value "%s" is mallformed. '

@@ -276,7 +276,7 @@ def compose_post(apikey, resize, rotation, noexif):
             }
 
     if resize:
-        width, height = resize.split('x')
+        width, height = [ x.strip() for x in resize.split('x')]
         post_data['udefb'] = ('', width)
         post_data['udefh'] = ('', height)
 
