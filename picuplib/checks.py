@@ -24,7 +24,7 @@ from requests import head
 
 from .exceptions import (MallformedResize, UnsupportedRotation,
                          UnsupportedFormat, UnkownError, ServerError,
-                         EmptyResponse)
+                         EmptyResponse, PercentageOutOfRange)
 from .globals import ALLOWED_ROTATION, USER_AGENT
 
 
@@ -42,12 +42,24 @@ def check_resize(resize):
     if resize is None:
         return
 
-    tmp = resize.lower().split('x')
-    tmp = [x.strip() for x in resize.lower().split('x')]
-    if len(tmp) == 2 and tmp[0].isdigit() and tmp[1].isdigit():
-        return
+    resize = resize.lower().strip()
+
+    if 'x' in resize:
+        tmp = resize.lower().split('x')
+        tmp = [x.strip() for x in resize.split('x')]
+        if len(tmp) == 2 and tmp[0].isdigit() and tmp[1].isdigit():
+            return
+    elif '%' in resize:
+        tmp = resize.split('%')[0]
+        if tmp.isnumeric():
+            tmp = int(tmp)
+            if 1 < tmp < 1000:
+                return
+            else:
+                raise PercentageOutOfRange("percentage must be between 1 and 1000")
+
     raise MallformedResize('Resize value "%s" is mallformed. '
-                           'Desired format is: {width}x{height}' % resize)
+                           'Desired format is: {width}x{height} or {percentage}%%' % resize)
 
 
 def check_noexif(noexif):

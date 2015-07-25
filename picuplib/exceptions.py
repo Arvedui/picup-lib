@@ -34,6 +34,10 @@ class MallformedResize(Exception):
     Raised when resize value is mallformed
     """
 
+class PercentageOutOfRange(Exception):
+    """
+    Raised when resize percentage is out of range
+    """
 
 class UnsupportedFormat(Exception):
     """
