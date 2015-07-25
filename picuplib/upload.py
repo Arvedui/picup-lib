@@ -279,7 +279,7 @@ def compose_post(apikey, resize, rotation, noexif):
         width, height = [ x.strip() for x in resize.split('x')]
         post_data['udefb'] = ('', width)
         post_data['udefh'] = ('', height)
-    else:
+    elif resize and '%' in resize:
         precentage = resize.strip().strip('%')
         post_data['udefp'] = precentage
 

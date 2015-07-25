@@ -53,7 +53,7 @@ def check_resize(resize):
         tmp = resize.split('%')[0]
         if tmp.isnumeric():
             tmp = int(tmp)
-            if 1 < tmp < 1000:
+            if 1 <= tmp <= 1000:
                 return
             else:
                 raise PercentageOutOfRange("percentage must be between 1 and 1000")
