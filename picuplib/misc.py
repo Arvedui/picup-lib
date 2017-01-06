@@ -49,6 +49,6 @@ def gen_user_agent(version):
 
     # reverting patch
     platform.system = orig_system
-    platform.system = orig_release
+    platform.release = orig_release
 
     return user_agent

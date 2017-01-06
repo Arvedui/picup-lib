@@ -21,7 +21,7 @@ Module for some "global" constants
 
 from .misc import gen_user_agent
 
-__version__ = '0.5.1'
+__version__ = '0.5.2'
 
 API_URL = 'https://www.picflash.org/tool.php'
 
